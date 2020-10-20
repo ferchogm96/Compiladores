@@ -1,0 +1,3 @@
+fin 3.45 243.42353246352 .245324{}def--este es un comentario
+Hola.00001212<*Aqui es otro comentario de
+distinta forma*>

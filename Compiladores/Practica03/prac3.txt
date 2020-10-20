@@ -1,0 +1,62 @@
+3.-
+(a) ¿Qué ocurre si en la primera sección se quitan las llaves al nombre de la macro espacio?
+R= No se hace un manejo sobre los elementos \t y \n por lo que se imprime un salto de más en cada entrada.
+
+(b) ¿Qué ocurre si en la segunda sección se quitan las llaves a las macros?
+R= Se toma literalmente las cadenas "esps", "digito" y "letra" para que se lleve a cabo la acción léxica.
+
+(c) ¿Cómo se escribe un comentario en flex?
+R= Entre las cadenas '/*' y '*/'.
+
+(d) ¿Qué se guarda en yytext?
+R= El texto que se ingresa por la consola.
+
+(e) ¿Qué pasa al ejecutar el programa e introducir cadenas de caracteres y de dı́gitos por la consola?
+R= Se va analizando lo que se ingreso como cadena y de acuerdo a la acción léxica definida para la expresión regular es lo que se lleva a cabo.
+En este caso cada que encuentra una letra imprime el mensaje "Encontre una letra" y si es un número "Encontre un número".
+
+(f) ¿Qué ocurre si introducimos caracteres como ”*” en la consola?
+R= Dado que no se define una regla para otros caracteres se da como regreso el mismo caracter ingresado.
+
+4.-
+(a) ¿Qué pasa con las palabras reservadas?
+R= Solo se reconocerán las palabras reservadas si se pasa la definición de {id}+ al final de las definiciones.
+En otro caso las palabras reservadas no se manejarán.
+
+(b) ¿Antes de hacer el cambio de la posición de {id} el programa se comporta de forma correcta con las palabras reservadas?
+R= No, las leia como identificadores
+
+(c) ¿Qué sucede cuando se cambia el orden de la expresión regular {id}?
+R= Ya funciona corectamente.
+
+(d) ¿Será importante la precedencia o prioridad de las expresiones regulares en lex?
+R= Sí. Parece que se va revisando las expresiones con forme van
+apareciendo, hasta que hace match con alguna.
+
+6.-
+(a) ¿Qué pasa con los errores?
+R= Se manejan con el mensaje "Ha ocurrido un error léxico:"
+
+(b) ¿Qué pasa si se cambia de posición la expresión regular ”.”?
+R= Se continúa manejando los errores léxicos.
+
+
+Conclusiones
+Es bastante útil el uso de los estados ya que de esta manera se puede identificar diferentes expresiones regulares. Con lo cual el análisis léxico es más preciso. De igual manera el uso de las variables predefinidas de Flex.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

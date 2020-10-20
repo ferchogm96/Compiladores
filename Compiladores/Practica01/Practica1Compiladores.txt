@@ -1,0 +1,146 @@
+Nombre: González Montiel Luis Fernando
+Práctica01 Compiladores
+
+
+3.- Use el siguiente comando: cpp programa.c programa.i
+a)¿Qué ocurre cuando se invoca el comando cpp con esos argumentos?
+Respuesta: Se genera un archivo programa.i
+
+b)¿Qué similitudes encuentra entre los archivos programa.c y programa.i?
+Respuesta: Se encuentra en la parte final del archivo programa.i el mismo código fuente pero realiza la susitución de las macros dentro de
+la función principal y elimina todos los comentarios.
+
+c)¿Qué pasa con las macros y los comentarios del código fuente original en programa.i?
+Respuesta.Las macros son sustituidas a sus valores definidos y los comentarios se eliminan. 
+
+d)Compare el contenido de programa.i con el de stdio.h e indique de forma general las similitudes entre ambos archivos.
+Respuesta: Que todo está definido mediante typedef y extern.
+
+e)¿A qué etapa corresponde este proceso?
+Respuesta: Al preprosesamiento del código fuente.
+
+4.- Ejecute la siguiente instrucción: gcc -Wall -S programa.i
+
+a)¿Para qué sirve la opción -Wall?
+Respuesta: Habilita el despliegue de todas las advertencias sobre malas prácticas de progrmación que son "fáciles" de corregir
+
+b)¿Qué le indica a gcc la opción -S?
+Respuesta: Evita que el enlazador trabaje.
+
+c)¿Qué contiene el archivo de salida y cuál es su extensión?
+Extensión '.s', código en lenguaje ensamblador.
+
+d).¿A qué etapa corresponde este comando?
+Respuesta: La etapa de Ensamblador 
+
+5.-Ejecute la siguiente instrucción: as programa.s -o programa.o
+
+a)Antes de revisarlo, indique cuál es su hipótesis sobre lo que debe contener el archivo con extensión .o
+Respuesta:Contiene código objeto del código en ensamblador del archivo programa.s
+
+b)Diga de forma general qué contiene el archivo programa.o y por qué se visualiza de esa manera.
+Respuesta: Contiene código en lenguaje de máquina y se ve de esa manera debido a que la información únicamente la entiende el hadware de la computadora.
+
+c)¿Qué programa se invoca con as ? 
+Respuesta: El programa ensamblador debido a que con la instrucción anterior que tenía como parámetro "-S" evitamos que el programa 
+se ejecutará.
+
+d)¿A qué etapa corresponde la llamada a este programa?
+Respuesta: A la útlima Ensamblador/Cargador
+
+6.- Encuentre la ruta de los siguientes archivos en el equipo de trabajo:
+
+Scrt1.o
+usr/lib/x86_64-linux-gnu/Scrt1.o
+
+crti.o
+usr/lib/x86_64-linux-gnu/crti.o
+
+crtbeginS.o
+usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o
+
+crtendS.o
+usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o
+
+crtn.o
+usr/lib/x86_64-linux-gnu/crtn.o
+
+7.-Ejecute el siguiente comando, sustituyendo las rutas que encontró en el paso anterior:
+
+a)
+ld -o programa_ejectutable -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie /usr/lib/x86_64-linux-gnu/Scrt1.o /usr/lib/x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o programa.o -lc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/x86_64-linux-gnu/crtn.o
+
+
+b) En caso de ser exitoso ¿Qué se genero el ejecutar el comando anterior?
+Respuesta: Se genera un archvo ejecutable con el nombre "programa_ejecutable".
+
+c)Describa qué ocurre si omitimos alguno de los archivos con terminación .o en el comando.
+Respuesta:
+Si quitamos el archivo crtn.o:
+	Muesta un mensaje "Violación de segmento 'core' generado)"
+Si quitamos el archivo programa.o:
+	No se define la función 'main'.
+Si quitamos el archivo crti.o:
+	No se define la referencia a _init 
+Si quitamos el archivo Scrt1.o:
+	El comando 'ld' no ecuentra el sismbolo de entrada _start.
+Si no agrego las rutas de los archivos crtbeginS.o y crtendS.o no genera ningun mensaje de algún tipo
+y el ejecutable se puede usar de manera correcta.
+
+8.- Quite el comentario de la macro #define PI en el código fuente original y conteste lo siguiente:
+
+a)¿Al ejecutar el comando del rubro 3. cambia en algo la salida alojada en programa.i? (Puedes llamar el mismo
+comando con un segundo argumento diferente al de la primera vez para facilitar su comparaci ́on. P.ej. cpp programa.c programa_v2.i)
+Respuesta: Sí, se lleva una sustitución del valor definido como PI con sus 12 dígitos luego del punto decimal ya que
+el valor original de PI por defecto se toma solo con 4 dígitos luego del punto decimal.
+
+b)¿Cambia en algo la ejecución final ?
+Respuesta: Sí.
+
+9.-Escriba el código fuente de un segundo programa en lenguaje C en el que agregue 4 directivas del preprocesador
+de C (cpp).
+
+#define START  0  /* */
+#define ENDING 9  /* */
+#define MAX(A,B)  ((A)>(B)?(A):(B))  /* */ 
+#define MIN(A,B)  ((A)>(B)?(B):(A))  /* Macro definitoria de Min */
+
+&nbsp;
+ 
+main(){
+	int index,mn,mx;
+	int count = 5;
+ 	&nbsp;
+	for (index = START;index <= ENDING;index++) {
+		mx = MAX(index,count);
+		mn = MIN(index,count);
+		printf("Max es %d y min es %d\n",mx,mn);
+	}
+}
+&nbsp;
+
+/* Encontrará cada sitio donde la combinación «START» aparezca y,
+simplemente la sustituirá por un 0, ya que esto es una definición. 
+El compilador nunca verá la palabra «START» en toda la compilación. Sólo encontrará ceros
+De la misma manera, el preprocesador encontrará todas las apariciones de la palabra «ENDING»,
+y las cambiará por 9, y el compilador operará en esa línea sin saber que hubo un «ENDING»
+
+Cuando el preprocesador encuentra la palabra «MAX» seguida de un grupo de paréntesis,
+esperará a encontrar dos términos entre paréntesis, y realizará una sustitución de los
+términos en la segunda definición. Entonces, el primer termino reemplazará cada «A» 
+en la segunda definición, y el segundo término sustituirá cada «B» en la segunda definición. 
+Cuando encontramos la línea 12 del programa, «index» será sustituido por cada «A», y «count» lo será por cada «B».
+«mx» recibirá el máximo valor de «index» o «count». De una manera parecida, el macro «MIN» resultará en «mn», 
+recibiendo el mínimo valor de «index» o «count». Los resultados aparecen por pantalla.
+*/
+
+
+
+
+
+10.- Escriba sus resultados al ejecutar el programa compilado y sus conclusiones personales.
+Respuesta:
+Para el 'ejecutable' (código fuente con la definición de PI comentada) el resultado es  - 28.274401 -
+mientras que el 'ejecutable_v2' (código fuente sin la definición de PI comentada) el resultado es - 28.274334 -
+hay una pequeña diferencia en la exactitud de los decimales.
+Debido a que en el código fuente del 'ejecutable_v2' se define un valor más exacto para la constante PI, en el proceso de traducción del código se trabajará con más decimales con lo cual el valor obtenido es más exacto, por ello el resultado es diferente.
